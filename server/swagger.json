@@ -1,0 +1,266 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "title",
+    "version": "1.0.0",
+    "description": ""
+  },
+  "components": {
+    "responses": {
+      "Forbidden": {
+        "description": "Access token is missing or invalid"
+      },
+      "Accepted": {
+        "description": "The request was accepted"
+      },
+      "Created": {
+        "description": "The resource has been created"
+      },
+      "NotFound": {
+        "description": "The resource has been created"
+      },
+      "NotAcceptable": {
+        "description": "The resource has been created"
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      },
+      "BasicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      },
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key"
+      }
+    },
+    "schemas": {
+      "Any": {
+        "description": "Any JSON object not defined as schema"
+      },
+      "PaginationMeta": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "number",
+            "example": 100,
+            "nullable": false
+          },
+          "page": {
+            "type": "number",
+            "example": 2,
+            "nullable": false
+          },
+          "perPage": {
+            "type": "number",
+            "example": 10,
+            "nullable": false
+          },
+          "currentPage": {
+            "type": "number",
+            "example": 3,
+            "nullable": false
+          },
+          "lastPage": {
+            "type": "number",
+            "example": 10,
+            "nullable": false
+          },
+          "firstPage": {
+            "type": "number",
+            "example": 1,
+            "nullable": false
+          },
+          "lastPageUrl": {
+            "type": "string",
+            "example": "/?page=10",
+            "nullable": false
+          },
+          "firstPageUrl": {
+            "type": "string",
+            "example": "/?page=1",
+            "nullable": false
+          },
+          "nextPageUrl": {
+            "type": "string",
+            "example": "/?page=6",
+            "nullable": false
+          },
+          "previousPageUrl": {
+            "type": "string",
+            "example": "/?page=5",
+            "nullable": false
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 466
+          },
+          "full_name": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "example": "johndoe@example.com",
+            "format": "email"
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2021-03-23T16:13:08.489+01:00",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "example": "2021-03-23T16:13:08.489+01:00",
+            "format": "date-time"
+          }
+        },
+        "description": "User (Model)"
+      }
+    }
+  },
+  "paths": {
+    "/api/v1/users": {
+      "get": {
+        "summary": "Get a list of v1 (index)",
+        "description": "\n\n _app/controllers/users_controller.ts_ - **index**",
+        "parameters": [],
+        "tags": [
+          "V1"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "summary": " (create)",
+        "description": "\n\n _app/controllers/users_controller.ts_ - **create**",
+        "parameters": [],
+        "tags": [
+          "V1"
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          }
+        }
+      }
+    },
+    "/api/v1/users/{id}": {
+      "get": {
+        "summary": "Get a single instance of v1 (show)",
+        "description": "\n\n _app/controllers/users_controller.ts_ - **show**",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "V1"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "Update v1 (update)",
+        "description": "\n\n _app/controllers/users_controller.ts_ - **update**",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "V1"
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete v1 (destroy)",
+        "description": "\n\n _app/controllers/users_controller.ts_ - **destroy**",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "V1"
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "V1",
+      "description": "Everything related to V1"
+    }
+  ]
+}
