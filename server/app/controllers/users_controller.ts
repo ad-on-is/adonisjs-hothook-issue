@@ -14,13 +14,26 @@ export default class UsersController {
     }
 
     async create({ request, response }: HttpContext) {
-        const data = request.only(['fullName', 'email', 'password'])
-        const payload = await createUserValidator.validate(data)
-        const user = await User.create(payload)
-        return response.json({
-            user,
-            message: 'User created successfully'
-        })
+        try {
+
+            const data = request.only(['fullName', 'email', 'password'])
+            const payload = await createUserValidator.validate(data)
+            const user = await User.create(payload)
+            return response.json({
+                user,
+                message: 'User created successfully'
+            })
+
+        } catch (error) {
+            return response.json({
+                errors: [
+                    {
+                        field: 'SQL ERROR',
+                        message: error.message
+                    }
+                ]
+            })
+        }
     }
     async show({ params, response }: HttpContext) {
         const user = await User.find(params.id as number)
@@ -76,9 +89,9 @@ export default class UsersController {
             const user = await User.create({
                 fullName: ghUser.name,
                 email: ghUser.email,
-                social_auth : 'github',
-                social_auth_token : ghUser.token.token ?? '',
-                avatarUrl : ghUser.avatarUrl,
+                social_auth: 'github',
+                social_auth_token: ghUser.token.token ?? '',
+                avatarUrl: ghUser.avatarUrl,
             })
             const token = await User.accessTokens.create(user,
                 ['post:create', 'post:read']
@@ -89,8 +102,8 @@ export default class UsersController {
                     // expiresIn : '1 minutes'
                 })
 
-          return  response.json({
-               user,
+            return response.json({
+                user,
                 type: 'bearer',
                 value: token.value!.release(),
                 message: 'User logged in successfully'
@@ -120,7 +133,11 @@ export default class UsersController {
         const user = await User.query().where('email', email).first()
         if (!user) {
             return response.status(404).json({
-                message: 'User not found'
+                errors: [
+                    {
+                        message : 'User not found'
+                    }
+                ]
             })
         }
         await hash.verify(password, user.password)
@@ -155,12 +172,12 @@ export default class UsersController {
         })
     }
     async getMe({ response, auth }: HttpContext) {
-        
+
         if (auth.isAuthenticated) {
             const user = await User.find(auth.user!.id)
             return response.json({
                 user,
-                lastOnline : auth.user?.currentAccessToken.lastUsedAt,
+                lastOnline: auth.user?.currentAccessToken.lastUsedAt,
                 message: 'User retrieved successfully'
             })
         }
