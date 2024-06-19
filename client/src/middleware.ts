@@ -9,7 +9,8 @@ const publicRoutes = [
 ]
 
 const authRoutes = [
-    '/'
+    '/',
+    '/post/:id',
 ]
 
 
@@ -17,25 +18,23 @@ const authRoutes = [
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
 
-    const {  user , errors } = await getMe();
+    const { user, errors } = await getMe();
 
-    console.log(user , errors)
-
-    if(!user){
+    if (!user) {
 
         if (publicRoutes.includes(request.nextUrl.pathname)) {
             return NextResponse.next()
         }
-    
+
         return NextResponse.redirect(new URL('/auth/login/', request.url))
     }
 
-    if (authRoutes.includes(request.nextUrl.pathname)) {
+    if (authRoutes.map(route => request.nextUrl.pathname.startsWith(route)).some(Boolean)) {
         return NextResponse.next()
     }
 
 
-    
+
     return NextResponse.redirect(new URL('/', request.url))
 }
 
@@ -49,6 +48,12 @@ export const config = {
          * - _next/image (image optimization files)
          * - favicon.ico (favicon file)
          */
-        '/((?!api|_next/static|_next/image|favicon.ico).*)',
+        {
+            source: '/((?!api|_next/static|_next/image|favicon.ico).*)',
+            missing: [
+                { type: 'header', key: 'next-router-prefetch' },
+                { type: 'header', key: 'purpose', value: 'prefetch' },
+            ],
+        }
     ],
 }

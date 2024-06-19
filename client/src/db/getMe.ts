@@ -14,9 +14,6 @@ export async function getAuthorization(){
 export async function getMe() {
 
     const authorization = cookies().get('authorization')
-    if (authorization) {
-        console.log(authorization.value)
-    }
     const user = await api('/me', {
         headers: { authorization: authorization?.value.replace('%20', ' ') }
     })

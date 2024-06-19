@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import Input from "postcss/lib/input";
+import { Input } from "@/components/ui/input";
 import {
   Sheet,
   SheetContent,
@@ -23,11 +23,11 @@ import { getMe } from "@/db/getMe";
 
 
 
-export default async function Header(){
+export default async function Header() {
 
   const { user } = await getMe();
 
-    return     <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
+  return <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
     <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
       <Link
         href="#"
@@ -46,26 +46,10 @@ export default async function Header(){
         href="#"
         className="text-muted-foreground transition-colors hover:text-foreground"
       >
-        Orders
+        Add Post
       </Link>
-      <Link
-        href="#"
-        className="text-muted-foreground transition-colors hover:text-foreground"
-      >
-        Products
-      </Link>
-      <Link
-        href="#"
-        className="text-muted-foreground transition-colors hover:text-foreground"
-      >
-        Customers
-      </Link>
-      <Link
-        href="#"
-        className="text-foreground transition-colors hover:text-foreground"
-      >
-        Settings
-      </Link>
+
+
     </nav>
     <Sheet>
       <SheetTrigger asChild>
@@ -84,8 +68,8 @@ export default async function Header(){
             href="#"
             className="flex items-center gap-2 text-lg font-semibold"
           >
-   
-            <span className="sr-only">Acme Inc</span>
+
+            <span className="sr-only">Reddit 2.0</span>
           </Link>
           <Link
             href="#"
@@ -97,31 +81,16 @@ export default async function Header(){
             href="#"
             className="text-muted-foreground hover:text-foreground"
           >
-            Orders
+            Add Post
           </Link>
-          <Link
-            href="#"
-            className="text-muted-foreground hover:text-foreground"
-          >
-            Products
-          </Link>
-          <Link
-            href="#"
-            className="text-muted-foreground hover:text-foreground"
-          >
-            Customers
-          </Link>
-          <Link href="#" className="hover:text-foreground">
-            Settings
-          </Link>
+
         </nav>
       </SheetContent>
     </Sheet>
     <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
       <form className="ml-auto flex-1 sm:flex-initial">
         <div className="relative">
-        
-         
+          <Input placeholder="search..." />
         </div>
       </form>
       <DropdownMenu>
