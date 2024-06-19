@@ -4,10 +4,8 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import api from "@/db/api"
-import { redirect } from "next/navigation"
 import GithubLogin from "@/components/github-signin"
-
+import * as actions from '@/actions/index'
 
 
 export default async function Dashboard({
@@ -18,40 +16,12 @@ export default async function Dashboard({
 
 
 
-    const handleSubmit = async (formData: FormData) => {
-        'use server';
-        const fullname = formData.get('fullname')
-        const email = formData.get('email')
-        const password = formData.get('password')
 
-        const response = await api('/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                fullName: fullname,
-                email,
-                password
-            })
-        })
-
-        console.log(response)
-
-        const { errors, user } = response;
-        if (errors) {
-            redirect('/auth/register?error=' + errors?.[0]?.message);
-        }
-        if (user) {
-            redirect('/auth/login?message=User+Account+Created+Successfully');
-        }
-
-    }
 
 
     return (
         <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
-            <form action={handleSubmit} >
+            <form action={actions.register} >
                 <div className="flex items-center justify-center py-12">
                     <div className="mx-auto grid w-[350px] gap-6">
                         <div className="grid gap-2 text-center">

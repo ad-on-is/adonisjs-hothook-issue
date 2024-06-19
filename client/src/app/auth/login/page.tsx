@@ -4,10 +4,8 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import api from "@/db/api"
-import { redirect } from "next/navigation"
-import { cookies } from "next/headers"
 import GithubLogin from "@/components/github-signin"
+import * as actions from '@/actions/index'
 
 export default function Login({
   searchParams,
@@ -15,41 +13,9 @@ export default function Login({
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
 
-
-
-  const handleSubmit = async (formData: FormData) => {
-    'use server';
-    const email = formData.get('email')
-    const password = formData.get('password')
-
-    const response = await api('/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email,
-        password
-      })
-    })
-
-    console.log(response)
-
-    const { errors, user, value } = response;
-    if (errors) {
-      redirect('/auth/login?error=' + errors?.[0]?.message);
-    }
-    if (user) {
-      cookies().set('authorization', `Bearer ${value}`);
-      redirect('/');
-    }
-
-  }
-
-
   return (
     <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
-      <form action={handleSubmit}>
+      <form action={actions.login}>
         <div className="flex items-center justify-center py-12">
           <div className="mx-auto grid w-[350px] gap-6">
             <div className="grid gap-2 text-center">

@@ -1,8 +1,7 @@
 import Header from "@/components/header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import api from "@/db/api";
-import { revalidatePath } from "next/cache";
+import * as actions from '@/actions/index'
 
 interface ViewPostProps {
     params: {
@@ -16,31 +15,7 @@ export default async function ViewPost(props: ViewPostProps) {
 
     const { id } = props.params;
 
-
-
-    const { post } = await api('/posts/' + id);
-
-
-    const { comments } = await api(`/posts/${id}/comments`)
-
-
-    const createComment = async (formData: FormData) => {
-        'use server';
-
-        const comment = formData.get('comment') as string;
-       const res = await api(`/posts/${id}/comments`, {
-            method: 'POST',
-            headers : {
-                   'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                comment,
-            })
-        })
-        revalidatePath('/posts/' + id)
-    }
-
-
+    const { comments, post } = await actions.getPost(id)
 
     return <div className="h-min-screen" >
         <Header />
@@ -57,7 +32,7 @@ export default async function ViewPost(props: ViewPostProps) {
             <div className="my-4" >
                 <p className="italic font-bold">Add Comment</p>
             </div>
-            <form action={createComment}>
+            <form action={actions.createComment.bind(null, id)}>
                 <div className="flex gap-3">
                     <Input name="comment" placeholder="enter your comment" />
                     <Button type="submit" >Add</Button>

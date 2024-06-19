@@ -1,7 +1,5 @@
+import  * as actions from "@/actions";
 import Header from "@/components/header/";
-import api from "@/db/api";
-import { getAuthorization } from "@/db/getMe";
-import { headers } from "next/headers";
 import Link from "next/link";
 
 interface HomeProps {
@@ -16,31 +14,13 @@ export default async function Home(props : HomeProps) {
 
   const currentPage = Number(props.searchParams?.page) || 1;
 
-  console.log(currentPage)
-
-  const authorization = await getAuthorization();
-
-  if(!authorization) {
-    return <div>Not logged in...</div>
-  }
-
-  const res = await api('/posts/?page='+currentPage, {
-    headers: {
-      authorization
-    }
-  })
-
-  const { posts } = res;
-
+  const posts = await actions.getAllPosts(currentPage)
 
   if (!posts) {
-    return <div>No Post Found...</div>
+    return <div>No Posts Found...</div>
   }
 
   const { data, meta } = posts
-
-  console.log('HomePage Posts Loaded')
-
 
   return (
     <main className="flex min-h-screen flex-col">
