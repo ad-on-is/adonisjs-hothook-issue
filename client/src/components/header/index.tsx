@@ -20,6 +20,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { getMe } from "@/db/getMe";
+import Subscribe from "../subscribe/index copy";
 
 
 
@@ -93,6 +94,10 @@ export default async function Header() {
           <Input placeholder="search..." />
         </div>
       </form>
+      <div>
+
+          <Subscribe />
+      </div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="secondary" size="icon" className="rounded-full">

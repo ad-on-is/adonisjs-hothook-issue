@@ -7,6 +7,8 @@ import { Label } from "@/components/ui/label"
 import GithubLogin from "@/components/github-signin"
 import * as actions from '@/actions/index'
 
+
+
 export default function Login({
   searchParams,
 }: {
@@ -15,6 +17,7 @@ export default function Login({
 
   return (
     <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
+     
       <form action={actions.login}>
         <div className="flex items-center justify-center py-12">
           <div className="mx-auto grid w-[350px] gap-6">
@@ -34,7 +37,7 @@ export default function Login({
                   type="email"
                   name="email"
                   placeholder="m@example.com"
-                  
+
                 />
               </div>
               <div className="grid gap-2">
@@ -47,13 +50,14 @@ export default function Login({
                     Forgot your password?
                   </Link>
                 </div>
-                <Input name="password" type="password"  />
+                <Input name="password" type="password" />
               </div>
               <Button type="submit" className="w-full">
                 Login
               </Button>
               <GithubLogin />
-             
+  
+
             </div>
             <div className="mt-4 text-center text-sm">
               Don&apos;t have an account?{" "}

@@ -10,11 +10,12 @@
 import { middleware } from '#start/kernel'
 import router from '@adonisjs/core/services/router'
 const UsersController = () => import('#controllers/users_controller')
+const PostsController = () => import('#controllers/posts_controller')
+const CommentsController = () => import('#controllers/comments_controller')
 
 import AutoSwagger from "adonis-autoswagger";
 import swagger from "#config/swagger";
-import PostsController from '#controllers/posts_controller';
-import CommentsController from '#controllers/comments_controller';
+import fs from 'fs/promises'
 
 
 router.group(() => {
@@ -62,7 +63,8 @@ router.group(() => {
 
 
 router.get('/swagger.json', async () => {
-  return AutoSwagger.default.writeFile(router.toJSON(), swagger);
+  const json = fs.readFile('swagger.json','utf8')
+  return AutoSwagger.default.writeFile(json, swagger);
 });
 // returns swagger in YAML
 router.get("/swagger", async () => {

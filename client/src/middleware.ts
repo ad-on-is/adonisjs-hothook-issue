@@ -6,11 +6,13 @@ import type { NextRequest } from 'next/server'
 const publicRoutes = [
     '/auth/login',
     '/auth/register',
+    '/payment',
 ]
 
 const authRoutes = [
     '/',
     '/post/:id',
+    '/payment',
 ]
 
 

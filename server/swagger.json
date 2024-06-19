@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "title",
+    "title": "Api Documentation",
     "version": "1.0.0",
     "description": ""
   },
@@ -97,22 +97,25 @@
           }
         }
       },
-      "User": {
+      "Comment": {
         "type": "object",
         "required": [],
         "properties": {
           "id": {
             "type": "number",
-            "example": 466
+            "example": 361
           },
-          "full_name": {
+          "comment": {
             "type": "string",
-            "example": "John Doe"
+            "example": "string"
           },
-          "email": {
-            "type": "string",
-            "example": "johndoe@example.com",
-            "format": "email"
+          "post_id": {
+            "type": "number",
+            "example": 623
+          },
+          "user_id": {
+            "type": "number",
+            "example": 240
           },
           "created_at": {
             "type": "string",
@@ -125,29 +128,662 @@
             "format": "date-time"
           }
         },
+        "description": "Comment (Model)"
+      },
+      "Post": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 521
+          },
+          "title": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "body": {
+            "type": "string",
+            "example": "string"
+          },
+          "user_id": {
+            "$ref": "#/components/schemas/User",
+            "example": "string"
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Comment",
+              "example": "string"
+            }
+          },
+          "image": {
+            "type": "string",
+            "example": "string"
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2021-03-23T16:13:08.489+01:00",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "example": "2021-03-23T16:13:08.489+01:00",
+            "format": "date-time"
+          }
+        },
+        "description": "Post (Model)"
+      },
+      "User": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 982
+          },
+          "full_name": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "example": "johndoe@example.com",
+            "format": "email"
+          },
+          "avatar_url": {
+            "type": "string",
+            "example": "string"
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2021-03-23T16:13:08.489+01:00",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "example": "2021-03-23T16:13:08.489+01:00",
+            "format": "date-time"
+          },
+          "posts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Post",
+              "example": "string"
+            }
+          }
+        },
         "description": "User (Model)"
+      },
+      "createCommentValidator": {
+        "type": "object",
+        "properties": {
+          "comment": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "minLength": 6
+          }
+        },
+        "example": {
+          "comment": "Lorem Ipsum"
+        },
+        "description": "createCommentValidator (Validator)"
+      },
+      "createPostValidator": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "minLength": 6
+          },
+          "body": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          }
+        },
+        "example": {
+          "title": "Lorem Ipsum",
+          "body": "Lorem Ipsum"
+        },
+        "description": "createPostValidator (Validator)"
+      },
+      "createUserValidator": {
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "minLength": 4
+          },
+          "email": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "password": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "minLength": 6
+          }
+        },
+        "example": {
+          "fullName": "Lorem Ipsum",
+          "email": "Lorem Ipsum",
+          "password": "Lorem Ipsum"
+        },
+        "description": "createUserValidator (Validator)"
       }
     }
   },
   "paths": {
-    "/api/v1/users": {
+    "/api/v1/me": {
       "get": {
-        "summary": "Get a list of v1 (index)",
-        "description": "\n\n _app/controllers/users_controller.ts_ - **index**",
+        "summary": " (getMe)",
+        "description": "\n\n _app/controllers/users_controller.ts_ - **getMe**",
         "parameters": [],
         "tags": [
           "V1"
         ],
         "responses": {
-          "200": {
-            "description": "OK",
+          "401": {
+            "description": "Returns **401** (Unauthorized)"
+          },
+          "403": {
+            "description": "Returns **403** (Forbidden)"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "access"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Delete v1 (destroy)",
+        "description": "\n\n _app/controllers/users_controller.ts_ - **destroy**",
+        "parameters": [],
+        "tags": [
+          "V1"
+        ],
+        "responses": {
+          "401": {
+            "description": "Returns **401** (Unauthorized)"
+          },
+          "403": {
+            "description": "Returns **403** (Forbidden)"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "access"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "summary": "Update v1 (update)",
+        "description": "\n\n _app/controllers/users_controller.ts_ - **update**",
+        "parameters": [],
+        "tags": [
+          "V1"
+        ],
+        "responses": {
+          "401": {
+            "description": "Returns **401** (Unauthorized)"
+          },
+          "403": {
+            "description": "Returns **403** (Forbidden)"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "access"
+            ]
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          }
+        }
+      }
+    },
+    "/api/v1/logout": {
+      "get": {
+        "summary": " (logout)",
+        "description": "\n\n _app/controllers/users_controller.ts_ - **logout**",
+        "parameters": [],
+        "tags": [
+          "V1"
+        ],
+        "responses": {
+          "401": {
+            "description": "Returns **401** (Unauthorized)"
+          },
+          "403": {
+            "description": "Returns **403** (Forbidden)"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "access"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "summary": " (logout)",
+        "description": "\n\n _app/controllers/users_controller.ts_ - **logout**",
+        "parameters": [],
+        "tags": [
+          "V1"
+        ],
+        "responses": {
+          "401": {
+            "description": "Returns **401** (Unauthorized)"
+          },
+          "403": {
+            "description": "Returns **403** (Forbidden)"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "access"
+            ]
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          }
+        }
+      }
+    },
+    "/api/v1/posts": {
+      "get": {
+        "summary": "Get a list of v1 (index)",
+        "description": "\n\n _app/controllers/posts_controller.ts_ - **index**",
+        "parameters": [],
+        "tags": [
+          "V1"
+        ],
+        "responses": {
+          "401": {
+            "description": "Returns **401** (Unauthorized)"
+          },
+          "403": {
+            "description": "Returns **403** (Forbidden)"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "access"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "summary": " (create)",
+        "description": "\n\n _app/controllers/posts_controller.ts_ - **create**",
+        "parameters": [],
+        "tags": [
+          "V1"
+        ],
+        "responses": {
+          "401": {
+            "description": "Returns **401** (Unauthorized)"
+          },
+          "403": {
+            "description": "Returns **403** (Forbidden)"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "access"
+            ]
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          }
+        }
+      }
+    },
+    "/api/v1/posts/{id}": {
+      "get": {
+        "summary": "Get a single instance of v1 (show)",
+        "description": "\n\n _app/controllers/posts_controller.ts_ - **show**",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "V1"
+        ],
+        "responses": {
+          "401": {
+            "description": "Returns **401** (Unauthorized)"
+          },
+          "403": {
+            "description": "Returns **403** (Forbidden)"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "access"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "summary": "Update v1 (update)",
+        "description": "\n\n _app/controllers/posts_controller.ts_ - **update**",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "V1"
+        ],
+        "responses": {
+          "401": {
+            "description": "Returns **401** (Unauthorized)"
+          },
+          "403": {
+            "description": "Returns **403** (Forbidden)"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "access"
+            ]
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete v1 (destroy)",
+        "description": "\n\n _app/controllers/posts_controller.ts_ - **destroy**",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "V1"
+        ],
+        "responses": {
+          "401": {
+            "description": "Returns **401** (Unauthorized)"
+          },
+          "403": {
+            "description": "Returns **403** (Forbidden)"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "access"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/posts/{id}/comments": {
+      "get": {
+        "summary": "Get a list of v1 (index)",
+        "description": "\n\n _app/controllers/comments_controller.ts_ - **index**",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "V1"
+        ],
+        "responses": {
+          "401": {
+            "description": "Returns **401** (Unauthorized)"
+          },
+          "403": {
+            "description": "Returns **403** (Forbidden)"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "access"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "summary": " (create)",
+        "description": "\n\n _app/controllers/comments_controller.ts_ - **create**",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "V1"
+        ],
+        "responses": {
+          "401": {
+            "description": "Returns **401** (Unauthorized)"
+          },
+          "403": {
+            "description": "Returns **403** (Forbidden)"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "access"
+            ]
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          }
+        }
+      }
+    },
+    "/api/v1/posts/{id}/comments/{commentId}": {
+      "get": {
+        "summary": "Get a single instance of v1 (show)",
+        "description": "\n\n _app/controllers/comments_controller.ts_ - **show**",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "commentId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "V1"
+        ],
+        "responses": {
+          "401": {
+            "description": "Returns **401** (Unauthorized)"
+          },
+          "403": {
+            "description": "Returns **403** (Forbidden)"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "access"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "summary": "Update v1 (update)",
+        "description": "\n\n _app/controllers/comments_controller.ts_ - **update**",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "commentId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "V1"
+        ],
+        "responses": {
+          "401": {
+            "description": "Returns **401** (Unauthorized)"
+          },
+          "403": {
+            "description": "Returns **403** (Forbidden)"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "access"
+            ]
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete v1 (destroy)",
+        "description": "\n\n _app/controllers/comments_controller.ts_ - **destroy**",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "commentId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "V1"
+        ],
+        "responses": {
+          "401": {
+            "description": "Returns **401** (Unauthorized)"
+          },
+          "403": {
+            "description": "Returns **403** (Forbidden)"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "access"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/login": {
+      "post": {
+        "summary": " (login)",
+        "description": "\n\n _app/controllers/users_controller.ts_ - **login**",
+        "parameters": [],
+        "tags": [
+          "V1"
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
             "content": {
               "application/json": {}
             }
           }
         },
-        "security": []
-      },
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          }
+        }
+      }
+    },
+    "/api/v1/register": {
       "post": {
         "summary": " (create)",
         "description": "\n\n _app/controllers/users_controller.ts_ - **create**",
@@ -171,20 +807,11 @@
         }
       }
     },
-    "/api/v1/users/{id}": {
+    "/api/v1/github/redirect": {
       "get": {
-        "summary": "Get a single instance of v1 (show)",
-        "description": "\n\n _app/controllers/users_controller.ts_ - **show**",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "schema": {
-              "type": "string"
-            },
-            "required": true
-          }
-        ],
+        "summary": " (githubRedirect)",
+        "description": "\n\n _app/controllers/users_controller.ts_ - **githubRedirect**",
+        "parameters": [],
         "tags": [
           "V1"
         ],
@@ -197,57 +824,19 @@
           }
         },
         "security": []
-      },
-      "put": {
-        "summary": "Update v1 (update)",
-        "description": "\n\n _app/controllers/users_controller.ts_ - **update**",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "schema": {
-              "type": "string"
-            },
-            "required": true
-          }
-        ],
+      }
+    },
+    "/api/v1/github/callback": {
+      "get": {
+        "summary": " (githubCallback)",
+        "description": "\n\n _app/controllers/users_controller.ts_ - **githubCallback**",
+        "parameters": [],
         "tags": [
           "V1"
         ],
         "responses": {
-          "204": {
-            "description": "No Content",
-            "content": {
-              "application/json": {}
-            }
-          }
-        },
-        "security": [],
-        "requestBody": {
-          "content": {
-            "application/json": {}
-          }
-        }
-      },
-      "delete": {
-        "summary": "Delete v1 (destroy)",
-        "description": "\n\n _app/controllers/users_controller.ts_ - **destroy**",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "schema": {
-              "type": "string"
-            },
-            "required": true
-          }
-        ],
-        "tags": [
-          "V1"
-        ],
-        "responses": {
-          "202": {
-            "description": "Accepted",
+          "200": {
+            "description": "OK",
             "content": {
               "application/json": {}
             }
