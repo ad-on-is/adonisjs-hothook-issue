@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 export default function GithubLogin() {
 
     const onClick = async () =>{
-        window.open('http://localhost:3333/api/v1/github/redirect')
+        window.open('http://localhost:3333/api/v1/github/redirect', '_self')
     }
 
     return (

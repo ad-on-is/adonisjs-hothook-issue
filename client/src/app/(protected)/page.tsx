@@ -46,9 +46,9 @@ export default async function Home(props : HomeProps) {
     <main className="flex min-h-screen flex-col">
       <Header />
 
-      <div className="flex p-3" >
+      <div className="flex p-3 flex-wrap justify-center" >
         {data.map((post: any) => (
-          <div className="flex flex-col shadow-md rounded-lg m-5 w-full p-4">
+          <div className="flex flex-col shadow-md rounded-lg m-5 p-4 w-1/3">
             <Link key={post.id} href={`/post/${post.id}`}>
             <p className="text-gray-400 font-sans italic mb-2 text-sm" >{post?.full_name}</p>
             <p className="text-black-400 font-sans  mb-2 text-sm" >{post?.title}</p>
@@ -59,7 +59,7 @@ export default async function Home(props : HomeProps) {
       </div>
 
 
-      <footer  className="p-3 w-full flex gap-3 italic text-xs">
+      <footer  className="p-3 w-full flex gap-3 italic text-xs justify-end">
        <p>Current Page  <span className="font-bold" >{meta.currentPage} </span> </p>
         <p>Post  Shown <span  className="font-bold">{meta.total}</span></p>
       </footer>

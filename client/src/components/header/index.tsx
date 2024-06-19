@@ -37,13 +37,13 @@ export default async function Header() {
         <span className="sr-only">Reddit 2.0</span>
       </Link>
       <Link
-        href="#"
+        href="/"
         className="text-muted-foreground transition-colors hover:text-foreground"
       >
         Dashboard
       </Link>
       <Link
-        href="#"
+        href="/post/new"
         className="text-muted-foreground transition-colors hover:text-foreground"
       >
         Add Post
@@ -96,7 +96,7 @@ export default async function Header() {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="secondary" size="icon" className="rounded-full">
-            <Image src={user.avatarUrl} width={32} height={32} className="rounded-full" alt="Avatar" />
+            {user?.avatarUrl && <Image src={user?.avatarUrl} width={32} height={32} className="rounded-full" alt="Avatar" />}
             <span className="sr-only">{user.fullName}</span>
           </Button>
         </DropdownMenuTrigger>

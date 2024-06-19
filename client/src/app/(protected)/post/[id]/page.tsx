@@ -10,7 +10,7 @@ interface ViewPostProps {
     }
 }
 
-
+export const revalidate = 3600
 
 export default async function ViewPost(props: ViewPostProps) {
 
