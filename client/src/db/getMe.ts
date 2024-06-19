@@ -12,10 +12,6 @@ export async function getAuthorization(){
 }
 
 export async function getMe() {
-
-    const authorization = cookies().get('authorization')
-    const user = await api('/me', {
-        headers: { authorization: authorization?.value.replace('%20', ' ') }
-    })
+    const user = await api('/me')
     return user;
 }
