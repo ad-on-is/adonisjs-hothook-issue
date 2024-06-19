@@ -1,7 +1,6 @@
 import Stripe from "stripe";
 import { NextResponse, NextRequest } from "next/server";
-import fs from 'node:fs'
-import path from "node:path";
+import api from "@/db/api";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 export async function POST(req: NextRequest) {
   const payload = await req.text();
@@ -41,6 +40,18 @@ export async function POST(req: NextRequest) {
           currency: paymentIntent.currency
         }
         console.log(payment_info);
+       
+        const { errors , payment } = await api('/payment' , {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payment_info)
+        })
+
+        console.log(payment)
+        console.log(errors)
+
         break;
       default:
         console.log(event.type)

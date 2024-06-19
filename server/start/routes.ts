@@ -12,6 +12,7 @@ import router from '@adonisjs/core/services/router'
 const UsersController = () => import('#controllers/users_controller')
 const PostsController = () => import('#controllers/posts_controller')
 const CommentsController = () => import('#controllers/comments_controller')
+const PaymentsController = () => import('#controllers/payments_controller')
 
 import AutoSwagger from "adonis-autoswagger";
 import swagger from "#config/swagger";
@@ -32,15 +33,17 @@ router.group(() => {
 
     router.get('/posts', [PostsController, 'index'])
     router.post('/posts', [PostsController, 'create'])
-    router.get('/posts/:id', [PostsController,'show'])
+    router.get('/posts/:id', [PostsController, 'show'])
     router.put('/posts/:id', [PostsController, 'update'])
     router.delete('/posts/:id', [PostsController, 'destroy'])
 
     router.get('/posts/:id/comments', [CommentsController, 'index'])
     router.post('/posts/:id/comments', [CommentsController, 'create'])
-    router.get('/posts/:id/comments/:commentId', [CommentsController,'show'])
+    router.get('/posts/:id/comments/:commentId', [CommentsController, 'show'])
     router.put('/posts/:id/comments/:commentId', [CommentsController, 'update'])
     router.delete('/posts/:id/comments/:commentId', [CommentsController, 'destroy'])
+
+
 
 
   }).middleware(middleware.auth({
@@ -53,6 +56,7 @@ router.group(() => {
   router.get('/github/redirect', [UsersController, 'githubRedirect'])
   router.get('/github/callback', [UsersController, 'githubCallback'])
 
+  router.post('/payment', [PaymentsController, 'create'])
 
 })
   .prefix('api/v1')
@@ -63,7 +67,7 @@ router.group(() => {
 
 
 router.get('/swagger.json', async () => {
-  const json = fs.readFile('swagger.json','utf8')
+  const json = fs.readFile('swagger.json', 'utf8')
   return AutoSwagger.default.writeFile(json, swagger);
 });
 // returns swagger in YAML
