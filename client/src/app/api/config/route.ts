@@ -6,8 +6,9 @@ import { NextResponse } from "next/server";
 
 export async function GET(req : NextApiRequest, res : NextApiResponse){
 
-    const user = await api('/me')
+    const { publicKey }  = await api('/payment/config');
+
     return NextResponse.json({
-        user
+        publicKey
     })
 }

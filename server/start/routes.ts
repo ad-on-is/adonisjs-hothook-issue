@@ -17,11 +17,10 @@ const PaymentsController = () => import('#controllers/payments_controller')
 import AutoSwagger from "adonis-autoswagger";
 import swagger from "#config/swagger";
 import fs from 'fs/promises'
+import { HttpContext } from '@adonisjs/core/http'
 
 
 router.group(() => {
-
-
 
   router.group(() => {
     router.get('/me', [UsersController, 'getMe'])
@@ -43,7 +42,14 @@ router.group(() => {
     router.put('/posts/:id/comments/:commentId', [CommentsController, 'update'])
     router.delete('/posts/:id/comments/:commentId', [CommentsController, 'destroy'])
 
+    router.get('/payment/config' , function({response} : HttpContext){
+      return response.json({
+        publicKey : process.env.STRIPE_PUBLIC_KEY
+      })
+    })
 
+    router.get('/payment/create-payment-intent', [PaymentsController, 'createPaymentIntent'])
+    router.post('/payment/payment-save', [PaymentsController, 'retreivePaymentIntent'])
 
 
   }).middleware(middleware.auth({
@@ -77,3 +83,12 @@ router.get("/swagger", async () => {
 router.get("/docs", async () => {
   return AutoSwagger.default.ui("/swagger", swagger);
 });
+
+
+
+
+// default Route
+
+router.get('/' , function({response} : HttpContext){
+  return response.send(`<h1>Hello Backend is Working on PORT : ${process.env.PORT}</h1>`)
+})
